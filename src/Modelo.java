@@ -25,7 +25,7 @@ public class Modelo {
             System.out.println(vh.remove());
         }
 
-        System.out.println("------------------------SEGUNDA IMPLEMENTACION---------------------");
+        System.out.println("------------------------IMPLEMENTACION DEL JAVACOLLECTION---------------------");
         for (int i = 0; i < vhs.size();) {
             System.out.println(vhs.remove());
         }
