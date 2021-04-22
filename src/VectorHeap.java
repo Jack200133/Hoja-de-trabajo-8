@@ -2,54 +2,59 @@ import java.util.Vector;
 
 public class VectorHeap<E extends Comparable<E>> implements PriorityQueueMIO<E>
 {
+    /**
+     *los datos, guardados en el orden de la pila
+     */
+    protected Vector<E> data;
 
-    protected Vector<E> data; // the data, kept in heap order
-
+    /**
+     *construye una nueva cola prioritaria
+     */
     public VectorHeap()
-    // post: constructs a new priority queue
     {
         data = new Vector<E>();
     }
 
-    public VectorHeap(Vector<E> v)
-    // post: constructs a new priority queue from an unordered vector
-    {
-        int i;
-        data = new Vector<E>(v.size()); // we know ultimate size
-        for (i = 0; i < v.size(); i++)
-        { // add elements to heap
-            add(v.get(i));
-        }
-    }
+    /**
+     *
+     * @param i posicion del nodo del que se desea el padre
+     * @return padre del nodo en la ubicación i
+     */
     protected static int parent(int i)
-    // pre: 0 <= i < size
-    // post: returns parent of node at location i
     {
         return (i-1)/2;
     }
 
+    /**
+     *
+     * @param i posicion del nodo del que se dea buiscar la izquierda
+     * @return devuelve el índice del hijo izquierdo del nodo en la posición i
+     */
     protected static int left(int i)
-    // pre: 0 <= i < size
-    // post: returns index of left child of node at location i
     {
         return 2*i+1;
     }
 
+    /**
+     *
+     * @param i posicion del nodo que se desea buscar el derecho
+     * @return índice del hijo derecho del nodo en la posición i
+     */
     protected static int right(int i)
-    // pre: 0 <= i < size
-    // post: returns index of right child of node at location i
     {
         return (2*i+1) + 1;
     }
 
+    /**
+     *mueve el nodo de la hoja del índice a la posición adecuada
+     * @param leaf nodo hoja
+     */
     protected void percolateUp(int leaf)
-    // pre: 0 <= leaf < size
-    // post: moves node at index leaf up to appropriate position
     {
         int parent = parent(leaf);
-        Pacientes value = (Pacientes) data.get(leaf);
+        E value = data.get(leaf);
         while (leaf > 0 &&
-                (value.compareTo((Pacientes) data.get(parent)) < 0))
+                (value.compareTo(data.get(parent)) < 0))
         {
             data.set(leaf,data.get(parent));
             leaf = parent;
@@ -58,35 +63,49 @@ public class VectorHeap<E extends Comparable<E>> implements PriorityQueueMIO<E>
         data.set(leaf, (E) value);
     }
 
+    /**
+     *
+     * @param value se añade a la cola de prioridad
+     */
     public void add(E value)
-    // pre: value is non-null comparable
-    // post: value is added to priority queue
     {
         data.add(value);
         percolateUp(data.size()-1);
     }
 
+    /**
+     *
+     * @return si el vector tiene elementos
+     */
     @Override
     public boolean isEmpty()
     {
         return data.size() == 0;
     }
 
+    /**
+     *
+     * @return tamano del vector
+     */
     @Override
     public int size()
     {
         return data.size();
     }
 
+    /**
+     * limpia todo el almacen de datos
+     */
     @Override
     public void clear() {
         data.removeAllElements();
     }
 
+    /**
+     *mueve el nodo en la raíz del índice hacia abajo a la posición apropiada en el subárbol
+     * @param root posicion de la base
+     */
     protected void pushDownRoot(int root)
-    // pre: 0 <= root < size
-    // post: moves node at index root down
-    // to appropriate position in subtree
     {
         int heapSize = data.size();
         E value = data.get(root);
@@ -100,23 +119,27 @@ public class VectorHeap<E extends Comparable<E>> implements PriorityQueueMIO<E>
                 {
                     childpos++;
                 }
-                // Assert: childpos indexes smaller of two children
+                // Assert: childpos indexa el menor de los dos hijos
                 if ((data.get(childpos)).compareTo
                         (value) < 0)
                 {
                     data.set(root,data.get(childpos));
-                    root = childpos; // keep moving down
-                } else { // found right location
+                    root = childpos; // seguir bajando
+                } else { // encontró la ubicación correcta
                     data.set(root,value);
                     return;
                 }
-            } else { // at a leaf! insert and halt
+            } else { // en una hoja! insertar y detener
                 data.set(root,value);
                 return;
             }
         }
     }
 
+    /**
+     *
+     * @return el primer elemento del vector
+     */
     @Override
     public E getFirst()
     {
@@ -124,9 +147,11 @@ public class VectorHeap<E extends Comparable<E>> implements PriorityQueueMIO<E>
     }
 
 
+    /**
+     *devuelve y elimina el valor mínimo de la cola
+     * @return el valor minimo de la cola
+     */
     public E remove()
-    // pre: !isEmpty()
-    // post: returns and removes minimum value from queue
     {
         E minVal = getFirst();
         data.set(0,data.get(data.size()-1));
@@ -135,6 +160,10 @@ public class VectorHeap<E extends Comparable<E>> implements PriorityQueueMIO<E>
         return minVal;
     }
 
+    /**
+     *
+     * @return Muestra los datos del vector 1 por 1
+     */
     @Override
     public String toString() {
         StringBuilder ver = new StringBuilder();

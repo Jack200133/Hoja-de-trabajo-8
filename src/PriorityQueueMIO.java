@@ -1,18 +1,38 @@
 public interface PriorityQueueMIO<E extends Comparable<E>> {
+    /**
+     * @return el valor mínimo en la cola de prioridad
+     */
     public E getFirst();
-    // pre: !isEmpty()
-// post: returns the minimum value in priority queue
+
+    /**
+     *
+     * @return devuelve y elimina el valor mínimo de la cola
+     */
     public E remove();
-    // pre: !isEmpty()
-// post: returns and removes minimum value from queue
+
+    /**
+     *
+     * @param value se añade a la cola de prioridad
+     *
+     */
     public void add(E value);
-    // pre: value is non-null comparable
-// post: value is added to priority queue
+
+    /**
+     *
+     * @return true si no hay elementos en la cola
+     */
     public boolean isEmpty();
-    // post: returns true iff no elements are in queue
+
+    /**
+     *
+     * @return número de elementos en la cola
+     */
     public int size();
-    // post: returns number of elements within queue
+
+    /**
+     * elimina todos los elementos de la cola
+     */
     public void clear();
-// post: removes all elements from queue
+
 
 }
